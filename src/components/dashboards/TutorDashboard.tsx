@@ -68,6 +68,13 @@ export function TutorDashboard() {
               <Star className="h-4 w-4 text-yellow-500 fill-current" />
               <span className="font-medium">{tutorData.rating}</span>
             </div>
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.href = '/'}
+              className="ml-4"
+            >
+              Logout
+            </Button>
           </div>
         </div>
       </header>

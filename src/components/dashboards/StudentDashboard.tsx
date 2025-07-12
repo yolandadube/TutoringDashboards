@@ -71,6 +71,14 @@ export function StudentDashboard() {
                 <Progress value={(studentData.usedHours / studentData.totalHours) * 100} className="h-2" />
               </div>
             </div>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => window.location.href = '/'}
+              className="ml-4"
+            >
+              Logout
+            </Button>
           </div>
         </div>
       </header>

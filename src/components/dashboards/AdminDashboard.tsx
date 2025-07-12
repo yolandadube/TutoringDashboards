@@ -56,6 +56,13 @@ export function AdminDashboard() {
               <Settings className="h-4 w-4 mr-2" />
               Settings
             </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => window.location.href = '/'}
+            >
+              Logout
+            </Button>
           </div>
         </div>
       </header>
