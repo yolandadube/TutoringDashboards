@@ -79,11 +79,11 @@ export function LandingPage() {
         <div className="relative container mx-auto px-4 py-16">
           <div className="text-center max-w-4xl mx-auto">
             <div className="mb-8">
-              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent mb-4">
-                Yolymatics
+              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent mb-2">
+                Yolymatics Tutorials
               </h1>
-              <h2 className="text-2xl md:text-3xl font-semibold text-foreground/80 mb-4">
-                Tutorials Dashboard
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground/80 mb-4">
+                Learning Management Dashboard
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 A comprehensive tutoring platform connecting students, tutors, and parents 

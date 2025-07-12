@@ -64,7 +64,7 @@ export function ParentDashboard() {
       <header className="bg-card border-b px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Parent Portal</h1>
+            <h1 className="text-2xl font-bold text-foreground">Yolymatics Tutorials - Parent</h1>
             <p className="text-muted-foreground">Monitoring {childData.name}'s Progress</p>
           </div>
           <div className="flex items-center space-x-3">

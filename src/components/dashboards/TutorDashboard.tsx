@@ -57,7 +57,7 @@ export function TutorDashboard() {
       <header className="bg-card border-b px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Tutor Dashboard</h1>
+            <h1 className="text-2xl font-bold text-foreground">Yolymatics Tutorials - Tutor</h1>
             <p className="text-muted-foreground">Welcome back, {tutorData.name}</p>
           </div>
           <div className="flex items-center space-x-3">
