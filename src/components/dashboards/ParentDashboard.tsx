@@ -236,17 +236,68 @@ export function ParentDashboard() {
           </TabsContent>
 
           <TabsContent value="progress" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <BarChart3 className="h-5 w-5 mr-2" />
-                  Academic Progress Details
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Detailed progress charts and analytics will be implemented here.</p>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <BarChart3 className="h-5 w-5 mr-2" />
+                    Subject Performance
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {performanceMetrics.map((metric) => (
+                      <div key={metric.subject} className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="font-medium">{metric.subject}</span>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-sm font-bold">{metric.currentScore}%</span>
+                            <div className={`flex items-center ${metric.trend === 'up' ? 'text-success' : 'text-destructive'}`}>
+                              <TrendingUp className={`h-3 w-3 ${metric.trend === 'down' ? 'rotate-180' : ''}`} />
+                              <span className="text-xs ml-1">
+                                {Math.abs(metric.currentScore - metric.previousScore)}%
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <Progress value={metric.currentScore} className="h-3" />
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Performance Summary</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center p-4 bg-muted/50 rounded-lg">
+                        <p className="text-2xl font-bold text-primary">{childData.averageScore}%</p>
+                        <p className="text-sm text-muted-foreground">Overall Average</p>
+                      </div>
+                      <div className="text-center p-4 bg-muted/50 rounded-lg">
+                        <p className="text-2xl font-bold text-success">{childData.attendanceRate}%</p>
+                        <p className="text-sm text-muted-foreground">Attendance Rate</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <h5 className="font-medium">Recent Achievements</h5>
+                      <div className="space-y-2">
+                        <div className="p-2 bg-success/10 rounded text-sm">
+                          <span className="font-medium">Mathematics:</span> Improved from 85% to 89%
+                        </div>
+                        <div className="p-2 bg-primary/10 rounded text-sm">
+                          <span className="font-medium">Physics:</span> Consistent 85% performance
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="lessons" className="space-y-6">
@@ -258,7 +309,34 @@ export function ParentDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Complete lesson history with tutor notes and summaries will be implemented here.</p>
+                <div className="space-y-4">
+                  {recentLessons.map((lesson) => (
+                    <Card key={lesson.id} className="hover:shadow-md transition-shadow">
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start mb-3">
+                          <div>
+                            <h4 className="font-medium">{lesson.subject}</h4>
+                            <p className="text-sm text-muted-foreground">{lesson.topic}</p>
+                            <p className="text-sm text-muted-foreground">with {lesson.tutor}</p>
+                          </div>
+                          <Badge variant="outline">{lesson.date}</Badge>
+                        </div>
+                        <div className="bg-muted/30 p-3 rounded-lg">
+                          <h5 className="font-medium text-sm mb-1">Lesson Summary:</h5>
+                          <p className="text-sm text-muted-foreground">{lesson.summary}</p>
+                        </div>
+                        <div className="flex space-x-2 mt-3">
+                          <Button size="sm" variant="outline" className="flex-1">
+                            View Full Report
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            Contact Tutor
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

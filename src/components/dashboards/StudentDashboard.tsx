@@ -223,8 +223,38 @@ export function StudentDashboard() {
                 <CardTitle>Lesson Schedule</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <p className="text-muted-foreground">Detailed lesson schedule and calendar will be implemented here.</p>
+                <div className="space-y-6">
+                  {/* Upcoming Lessons */}
+                  <div>
+                    <h4 className="font-medium mb-3">Upcoming Lessons</h4>
+                    <div className="space-y-3">
+                      {upcomingLessons.map((lesson) => (
+                        <Card key={lesson.id} className="hover:shadow-md transition-shadow">
+                          <CardContent className="p-4">
+                            <div className="flex justify-between items-start mb-3">
+                              <div>
+                                <h4 className="font-medium">{lesson.subject}</h4>
+                                <p className="text-sm text-muted-foreground">{lesson.topic}</p>
+                                <p className="text-sm text-muted-foreground">with {lesson.tutor}</p>
+                              </div>
+                              <div className="text-right">
+                                <Badge variant="outline">{lesson.date}</Badge>
+                                <p className="text-sm text-muted-foreground mt-1">{lesson.time}</p>
+                              </div>
+                            </div>
+                            <div className="flex space-x-2">
+                              <Button size="sm" variant="outline" className="flex-1">
+                                Join Lesson
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                Reschedule
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -241,7 +271,49 @@ export function StudentDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <p className="text-muted-foreground">Homework submission and tracking interface will be implemented here.</p>
+                  {/* Homework List */}
+                  <div className="space-y-3">
+                    {recentHomework.map((hw) => (
+                      <Card key={hw.id} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <div>
+                              <h4 className="font-medium">{hw.title}</h4>
+                              <p className="text-sm text-muted-foreground">{hw.subject}</p>
+                              <p className="text-sm text-muted-foreground">Due: {hw.dueDate}</p>
+                            </div>
+                            <Badge 
+                              variant={hw.status === 'graded' ? 'default' : hw.status === 'submitted' ? 'secondary' : 'destructive'}
+                            >
+                              {hw.status}
+                            </Badge>
+                          </div>
+                          {hw.score && (
+                            <div className="mb-3">
+                              <Badge variant="outline" className="text-success border-success">
+                                Score: {hw.score}%
+                              </Badge>
+                            </div>
+                          )}
+                          <div className="flex space-x-2">
+                            {hw.status === 'pending' && (
+                              <Button size="sm" className="brand-gradient text-white flex-1">
+                                Submit Work
+                              </Button>
+                            )}
+                            <Button size="sm" variant="outline">
+                              View Details
+                            </Button>
+                            {hw.status === 'graded' && (
+                              <Button size="sm" variant="outline">
+                                Download Feedback
+                              </Button>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -284,7 +356,60 @@ export function StudentDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <p className="text-muted-foreground">Access to lesson notes, study materials, and resources will be implemented here.</p>
+                  {/* Material Categories */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4 text-center">
+                        <BookOpen className="h-8 w-8 mx-auto mb-2 text-primary" />
+                        <h4 className="font-medium">Lesson Notes</h4>
+                        <p className="text-sm text-muted-foreground">15 files</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4 text-center">
+                        <FileText className="h-8 w-8 mx-auto mb-2 text-success" />
+                        <h4 className="font-medium">Study Guides</h4>
+                        <p className="text-sm text-muted-foreground">8 files</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4 text-center">
+                        <Download className="h-8 w-8 mx-auto mb-2 text-warning" />
+                        <h4 className="font-medium">Resources</h4>
+                        <p className="text-sm text-muted-foreground">12 files</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Recent Materials */}
+                  <div>
+                    <h4 className="font-medium mb-3">Recent Materials</h4>
+                    <div className="space-y-2">
+                      {[
+                        { name: 'Calculus_Notes_Ch5.pdf', type: 'PDF', size: '2.1 MB', uploaded: '2 days ago', tutor: 'Dr. Garcia' },
+                        { name: 'Physics_Study_Guide.pdf', type: 'PDF', size: '1.8 MB', uploaded: '1 week ago', tutor: 'Prof. Johnson' },
+                        { name: 'Chemistry_Formula_Reference.pdf', type: 'PDF', size: '3.0 MB', uploaded: '1 week ago', tutor: 'Dr. Brown' }
+                      ].map((material, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 rounded-lg border bg-card/50">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 rounded bg-primary/10 flex items-center justify-center">
+                              <FileText className="h-5 w-5 text-primary" />
+                            </div>
+                            <div>
+                              <h5 className="font-medium">{material.name}</h5>
+                              <p className="text-sm text-muted-foreground">{material.size} • {material.uploaded} • by {material.tutor}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="outline">{material.type}</Badge>
+                            <Button size="sm" variant="outline">
+                              <Download className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>

@@ -255,7 +255,43 @@ export function TutorDashboard() {
                 </Button>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Comprehensive lesson scheduling interface will be implemented here.</p>
+                <div className="space-y-6">
+                  {/* Weekly Schedule */}
+                  <div>
+                    <h4 className="font-medium mb-3">This Week's Schedule</h4>
+                    <div className="grid grid-cols-7 gap-2 mb-4">
+                      {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
+                        <div key={day} className="text-center p-2 bg-muted/50 rounded font-medium text-sm">
+                          {day}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-7 gap-2">
+                      {Array.from({length: 7}).map((_, index) => (
+                        <div key={index} className="min-h-[120px] p-2 border rounded-lg bg-card/50">
+                          {index === 1 && (
+                            <div className="p-2 mb-2 bg-primary/10 rounded text-xs">
+                              <div className="font-medium">09:00 - Alex</div>
+                              <div className="text-muted-foreground">Mathematics</div>
+                            </div>
+                          )}
+                          {index === 2 && (
+                            <div className="p-2 mb-2 bg-success/10 rounded text-xs">
+                              <div className="font-medium">14:00 - Sarah</div>
+                              <div className="text-muted-foreground">Physics</div>
+                            </div>
+                          )}
+                          {index === 4 && (
+                            <div className="p-2 mb-2 bg-warning/10 rounded text-xs">
+                              <div className="font-medium">16:00 - Mike</div>
+                              <div className="text-muted-foreground">Mathematics</div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -269,7 +305,33 @@ export function TutorDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Assignment grading interface with rubrics and feedback tools will be implemented here.</p>
+                <div className="space-y-4">
+                  {pendingAssignments.map((assignment) => (
+                    <Card key={assignment.id} className="hover:shadow-md transition-shadow">
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start mb-3">
+                          <div>
+                            <h4 className="font-medium">{assignment.title}</h4>
+                            <p className="text-sm text-muted-foreground">{assignment.student} • {assignment.subject}</p>
+                            <p className="text-xs text-muted-foreground">Submitted: {assignment.submitted}</p>
+                          </div>
+                          <Badge variant="destructive">Due: {assignment.dueGrading}</Badge>
+                        </div>
+                        <div className="flex space-x-2">
+                          <Button size="sm" className="brand-gradient text-white flex-1">
+                            Grade Assignment
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            View Submission
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            Download
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -287,7 +349,60 @@ export function TutorDashboard() {
                 </Button>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Material upload and management interface will be implemented here.</p>
+                <div className="space-y-4">
+                  {/* Material Categories */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4 text-center">
+                        <FileText className="h-8 w-8 mx-auto mb-2 text-primary" />
+                        <h4 className="font-medium">Lesson Plans</h4>
+                        <p className="text-sm text-muted-foreground">24 files</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4 text-center">
+                        <BookOpen className="h-8 w-8 mx-auto mb-2 text-success" />
+                        <h4 className="font-medium">Worksheets</h4>
+                        <p className="text-sm text-muted-foreground">45 files</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4 text-center">
+                        <Upload className="h-8 w-8 mx-auto mb-2 text-warning" />
+                        <h4 className="font-medium">Resources</h4>
+                        <p className="text-sm text-muted-foreground">31 files</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Recent Materials */}
+                  <div>
+                    <h4 className="font-medium mb-3">My Materials</h4>
+                    <div className="space-y-2">
+                      {[
+                        { name: 'Calculus_Derivatives_Lesson.pdf', type: 'PDF', size: '3.2 MB', uploaded: '2 days ago', downloads: 12 },
+                        { name: 'Physics_Lab_Guide.docx', type: 'DOC', size: '2.1 MB', uploaded: '1 week ago', downloads: 8 },
+                        { name: 'Math_Formula_Sheet.pdf', type: 'PDF', size: '1.5 MB', uploaded: '2 weeks ago', downloads: 15 }
+                      ].map((material, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 rounded-lg border bg-card/50">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 rounded bg-primary/10 flex items-center justify-center">
+                              <FileText className="h-5 w-5 text-primary" />
+                            </div>
+                            <div>
+                              <h5 className="font-medium">{material.name}</h5>
+                              <p className="text-sm text-muted-foreground">{material.size} • {material.uploaded} • {material.downloads} downloads</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="outline">{material.type}</Badge>
+                            <Button size="sm" variant="outline">Share</Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

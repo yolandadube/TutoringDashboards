@@ -15,7 +15,8 @@ import {
   Clock,
   TrendingUp,
   FileText,
-  Upload
+  Upload,
+  Star
 } from 'lucide-react';
 
 export function AdminDashboard() {
@@ -195,8 +196,49 @@ export function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {/* Student list would go here */}
-                  <p className="text-muted-foreground">Student management interface will be implemented here.</p>
+                  {/* Student Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[
+                      { name: 'Alex Johnson', grade: '10th', subjects: ['Math', 'Physics'], hours: '18/25', performance: 87 },
+                      { name: 'Sarah Smith', grade: '11th', subjects: ['Chemistry', 'Biology'], hours: '22/30', performance: 92 },
+                      { name: 'Mike Wilson', grade: '9th', subjects: ['Math'], hours: '5/15', performance: 78 },
+                      { name: 'Emma Davis', grade: '12th', subjects: ['Physics', 'Math'], hours: '28/35', performance: 95 },
+                      { name: 'John Brown', grade: '10th', subjects: ['Chemistry'], hours: '12/20', performance: 83 },
+                      { name: 'Lisa Taylor', grade: '11th', subjects: ['Biology', 'Chemistry'], hours: '16/25', performance: 89 }
+                    ].map((student, index) => (
+                      <Card key={index} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <div>
+                              <h4 className="font-medium">{student.name}</h4>
+                              <p className="text-sm text-muted-foreground">{student.grade} Grade</p>
+                            </div>
+                            <Badge variant="outline">{student.performance}%</Badge>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex flex-wrap gap-1">
+                              {student.subjects.map((subject) => (
+                                <Badge key={subject} variant="secondary" className="text-xs">
+                                  {subject}
+                                </Badge>
+                              ))}
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                              Hours: {student.hours}
+                            </div>
+                            <div className="flex space-x-2">
+                              <Button size="sm" variant="outline" className="flex-1">
+                                View Details
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                Edit
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -213,8 +255,48 @@ export function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {/* Tutor list would go here */}
-                  <p className="text-muted-foreground">Tutor management interface will be implemented here.</p>
+                  {/* Tutor Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[
+                      { name: 'Dr. Maria Garcia', specialization: 'Mathematics & Physics', students: 12, rating: 4.9, hourlyRate: '$45' },
+                      { name: 'Prof. James Wilson', specialization: 'Chemistry & Biology', students: 8, rating: 4.7, hourlyRate: '$40' },
+                      { name: 'Dr. Sarah Thompson', specialization: 'Mathematics', students: 15, rating: 4.8, hourlyRate: '$42' },
+                      { name: 'Mr. David Chen', specialization: 'Physics', students: 10, rating: 4.6, hourlyRate: '$38' }
+                    ].map((tutor, index) => (
+                      <Card key={index} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start mb-3">
+                            <div>
+                              <h4 className="font-medium">{tutor.name}</h4>
+                              <p className="text-sm text-muted-foreground">{tutor.specialization}</p>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                              <span className="text-sm font-medium">{tutor.rating}</span>
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex justify-between text-sm">
+                              <span className="text-muted-foreground">Students:</span>
+                              <span className="font-medium">{tutor.students}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span className="text-muted-foreground">Hourly Rate:</span>
+                              <span className="font-medium">{tutor.hourlyRate}</span>
+                            </div>
+                            <div className="flex space-x-2 mt-3">
+                              <Button size="sm" variant="outline" className="flex-1">
+                                View Profile
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                Edit
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -222,33 +304,127 @@ export function AdminDashboard() {
 
           <TabsContent value="lessons" className="space-y-6">
             <Card>
-              <CardHeader>
+              <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Lesson Management</CardTitle>
+                <Button className="brand-gradient text-white">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Schedule Lesson
+                </Button>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {/* Lesson management would go here */}
-                  <p className="text-muted-foreground">Lesson scheduling and management interface will be implemented here.</p>
+                  {/* Today's Lessons */}
+                  <div>
+                    <h4 className="font-medium mb-3">Today's Lessons</h4>
+                    <div className="space-y-2">
+                      {[
+                        { student: 'Alex Johnson', tutor: 'Dr. Garcia', subject: 'Mathematics', time: '09:00', status: 'scheduled' },
+                        { student: 'Sarah Smith', tutor: 'Prof. Wilson', subject: 'Chemistry', time: '11:00', status: 'in-progress' },
+                        { student: 'Mike Wilson', tutor: 'Dr. Garcia', subject: 'Mathematics', time: '14:00', status: 'scheduled' },
+                        { student: 'Emma Davis', tutor: 'Dr. Thompson', subject: 'Physics', time: '16:00', status: 'completed' }
+                      ].map((lesson, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 rounded-lg border bg-card/50">
+                          <div className="flex items-center space-x-4">
+                            <div className="w-16 text-center">
+                              <span className="font-medium">{lesson.time}</span>
+                            </div>
+                            <div>
+                              <h5 className="font-medium">{lesson.student}</h5>
+                              <p className="text-sm text-muted-foreground">{lesson.subject} with {lesson.tutor}</p>
+                            </div>
+                          </div>
+                          <Badge 
+                            variant={
+                              lesson.status === 'completed' ? 'default' : 
+                              lesson.status === 'in-progress' ? 'secondary' : 
+                              'outline'
+                            }
+                          >
+                            {lesson.status}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <BarChart3 className="h-5 w-5 mr-2" />
-                  Analytics & Reports
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {/* Analytics charts would go here */}
-                  <p className="text-muted-foreground">Analytics dashboard with charts and reports will be implemented here.</p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <BarChart3 className="h-5 w-5 mr-2" />
+                    Performance Metrics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center p-4 bg-muted/50 rounded-lg">
+                        <p className="text-2xl font-bold text-primary">92%</p>
+                        <p className="text-sm text-muted-foreground">Completion Rate</p>
+                      </div>
+                      <div className="text-center p-4 bg-muted/50 rounded-lg">
+                        <p className="text-2xl font-bold text-success">4.8</p>
+                        <p className="text-sm text-muted-foreground">Avg Rating</p>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      {['Mathematics', 'Physics', 'Chemistry', 'Biology'].map((subject) => (
+                        <div key={subject} className="space-y-1">
+                          <div className="flex justify-between text-sm">
+                            <span>{subject}</span>
+                            <span>{Math.floor(Math.random() * 20) + 80}%</span>
+                          </div>
+                          <div className="w-full bg-secondary rounded-full h-2">
+                            <div 
+                              className="bg-primary h-2 rounded-full" 
+                              style={{ width: `${Math.floor(Math.random() * 20) + 80}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Revenue Analytics</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 gap-4">
+                      <div className="text-center p-4 bg-muted/50 rounded-lg">
+                        <p className="text-2xl font-bold text-primary">$12,500</p>
+                        <p className="text-sm text-muted-foreground">This Month</p>
+                      </div>
+                      <div className="text-center p-4 bg-muted/50 rounded-lg">
+                        <p className="text-2xl font-bold text-success">+15%</p>
+                        <p className="text-sm text-muted-foreground">Growth</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <h5 className="font-medium">Top Performing Tutors</h5>
+                      {[
+                        { name: 'Dr. Maria Garcia', revenue: '$3,200' },
+                        { name: 'Prof. James Wilson', revenue: '$2,800' },
+                        { name: 'Dr. Sarah Thompson', revenue: '$2,400' }
+                      ].map((tutor) => (
+                        <div key={tutor.name} className="flex justify-between items-center p-2 bg-muted/30 rounded">
+                          <span className="text-sm">{tutor.name}</span>
+                          <span className="font-medium">{tutor.revenue}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="files" className="space-y-6">
@@ -265,8 +441,58 @@ export function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {/* File management would go here */}
-                  <p className="text-muted-foreground">File upload and management interface will be implemented here.</p>
+                  {/* File Categories */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4 text-center">
+                        <FileText className="h-8 w-8 mx-auto mb-2 text-primary" />
+                        <h4 className="font-medium">Course Materials</h4>
+                        <p className="text-sm text-muted-foreground">124 files</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4 text-center">
+                        <Upload className="h-8 w-8 mx-auto mb-2 text-success" />
+                        <h4 className="font-medium">Student Submissions</h4>
+                        <p className="text-sm text-muted-foreground">67 files</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4 text-center">
+                        <BookOpen className="h-8 w-8 mx-auto mb-2 text-warning" />
+                        <h4 className="font-medium">Resources</h4>
+                        <p className="text-sm text-muted-foreground">89 files</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Recent Files */}
+                  <div>
+                    <h4 className="font-medium mb-3">Recent Files</h4>
+                    <div className="space-y-2">
+                      {[
+                        { name: 'Calculus_Worksheet_Ch5.pdf', type: 'PDF', size: '2.4 MB', uploaded: '2 hours ago', uploader: 'Dr. Garcia' },
+                        { name: 'Physics_Lab_Instructions.docx', type: 'DOC', size: '1.8 MB', uploaded: '5 hours ago', uploader: 'Prof. Wilson' },
+                        { name: 'Chemistry_Formula_Sheet.pdf', type: 'PDF', size: '3.1 MB', uploaded: '1 day ago', uploader: 'Dr. Brown' }
+                      ].map((file, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 rounded-lg border bg-card/50">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 rounded bg-primary/10 flex items-center justify-center">
+                              <FileText className="h-5 w-5 text-primary" />
+                            </div>
+                            <div>
+                              <h5 className="font-medium">{file.name}</h5>
+                              <p className="text-sm text-muted-foreground">{file.size} • {file.uploaded} • {file.uploader}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="outline">{file.type}</Badge>
+                            <Button size="sm" variant="outline">Download</Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>

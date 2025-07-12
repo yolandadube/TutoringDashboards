@@ -317,6 +317,39 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          role: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          role: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          role?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       students: {
         Row: {
           created_at: string | null
@@ -470,6 +503,38 @@ export type Database = {
           },
         ]
       }
+      user_credentials: {
+        Row: {
+          created_at: string | null
+          id: string
+          password_hash: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          password_hash: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          password_hash?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_credentials_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       users: {
         Row: {
           access_token: string
@@ -511,7 +576,36 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      change_password: {
+        Args: {
+          p_user_id: string
+          p_old_password: string
+          p_new_password: string
+        }
+        Returns: boolean
+      }
+      create_user: {
+        Args: {
+          p_email: string
+          p_full_name: string
+          p_role: string
+          p_password: string
+          p_phone?: string
+        }
+        Returns: string
+      }
+      hash_password: {
+        Args: { password: string }
+        Returns: string
+      }
+      reset_user_password: {
+        Args: { p_user_id: string; p_new_password: string }
+        Returns: boolean
+      }
+      verify_password: {
+        Args: { password: string; hash: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
