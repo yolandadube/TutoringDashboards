@@ -106,21 +106,13 @@ const Login = () => {
         {/* Logo Section */}
         <div className="text-center space-y-6">
           <div className="flex justify-center">
-            <div className="w-40 h-40 flex items-center justify-center">
+            <div className="w-64 h-64 flex items-center justify-center">
               <img 
-                src="/lovable-uploads/8b07fec7-9cb8-4b7f-8e49-98c7b7884ab3.png" 
+                src="/lovable-uploads/ce5a54c3-769b-4119-a08a-cc38508b67c8.png" 
                 alt="Yolymatics Tutorials Logo" 
                 className="w-full h-full object-contain"
               />
             </div>
-          </div>
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-primary">
-              Yolymatics Tutorials
-            </h1>
-            <p className="text-muted-foreground text-sm font-medium">
-              Level Up Your Learning
-            </p>
           </div>
         </div>
 
