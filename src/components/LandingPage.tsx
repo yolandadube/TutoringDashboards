@@ -115,8 +115,19 @@ export function LandingPage() {
                     Access Portal
                   </Button>
                 </form>
-                <div className="mt-4 text-xs text-muted-foreground text-center">
-                  <p>Demo codes: admin, tutor, student, parent</p>
+                <div className="mt-4 space-y-2">
+                  <div className="text-xs text-muted-foreground text-center">
+                    <p>Demo codes: admin, tutor, student, parent</p>
+                  </div>
+                  <div className="text-center">
+                    <Button 
+                      variant="ghost" 
+                      onClick={() => navigate('/login')}
+                      className="text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      Sign In to Your Account
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
