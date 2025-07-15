@@ -72,14 +72,23 @@ export function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/30 to-accent/20">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5"></div>
         <div className="relative container mx-auto px-4 py-16">
           <div className="text-center max-w-4xl mx-auto">
             <div className="mb-8">
-              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent mb-2">
+              <div className="flex justify-center mb-6">
+                <div className="w-32 h-32 flex items-center justify-center">
+                  <img 
+                    src="/lovable-uploads/8b07fec7-9cb8-4b7f-8e49-98c7b7884ab3.png" 
+                    alt="Yolymatics Tutorials Logo" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </div>
+              <h1 className="text-4xl md:text-6xl font-bold text-primary mb-2">
                 Yolymatics Tutorials
               </h1>
               <h2 className="text-xl md:text-2xl font-semibold text-foreground/80 mb-4">
@@ -110,7 +119,7 @@ export function LandingPage() {
                   />
                   <Button 
                     type="submit" 
-                    className="w-full brand-gradient hover:opacity-90 text-white font-medium"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
                   >
                     Access Portal
                   </Button>

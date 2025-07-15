@@ -101,21 +101,21 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
         {/* Logo Section */}
         <div className="text-center space-y-6">
           <div className="flex justify-center">
-            <div className="w-32 h-32 bg-gradient-to-br from-primary to-primary-glow rounded-full flex items-center justify-center border-4 border-primary/20 shadow-[0_0_40px_hsl(var(--primary)/0.3)]">
+            <div className="w-40 h-40 flex items-center justify-center">
               <img 
-                src="/lovable-uploads/878fe53f-7b65-487a-a465-d3aca21a570b.png" 
+                src="/lovable-uploads/8b07fec7-9cb8-4b7f-8e49-98c7b7884ab3.png" 
                 alt="Yolymatics Tutorials Logo" 
-                className="w-24 h-24 object-contain"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold text-primary">
               Yolymatics Tutorials
             </h1>
             <p className="text-muted-foreground text-sm font-medium">
@@ -198,7 +198,7 @@ const Login = () => {
 
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-primary hover:opacity-90 text-white font-medium py-2.5 shadow-glow"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2.5"
                     disabled={loading}
                   >
                     {loading ? 'Signing In...' : 'Sign In'}
@@ -279,7 +279,7 @@ const Login = () => {
 
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-primary hover:opacity-90 text-white font-medium py-2.5 shadow-glow"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2.5"
                     disabled={loading}
                   >
                     {loading ? 'Creating Account...' : 'Create Account'}
