@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   BookOpen, 
   Calendar, 
@@ -21,6 +22,7 @@ import {
 
 export function StudentDashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const { signOut, profile } = useAuth();
 
   // Mock student data
   const studentData = {
@@ -59,7 +61,7 @@ export function StudentDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Yolymatics Tutorials - Student</h1>
-            <p className="text-muted-foreground">Welcome back, {studentData.name}</p>
+            <p className="text-muted-foreground">Welcome back, {profile?.full_name}</p>
           </div>
           <div className="flex items-center space-x-3">
             <Badge variant="outline" className="text-primary border-primary">
@@ -74,7 +76,7 @@ export function StudentDashboard() {
             <Button 
               variant="outline" 
               size="sm"
-              onClick={() => window.location.href = '/'}
+              onClick={signOut}
               className="ml-4"
             >
               Logout

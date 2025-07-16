@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   User, 
   Calendar, 
@@ -20,6 +21,7 @@ import {
 
 export function ParentDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
+  const { signOut, profile } = useAuth();
 
   // Mock parent/student data
   const childData = {
@@ -65,7 +67,7 @@ export function ParentDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Yolymatics Tutorials - Parent</h1>
-            <p className="text-muted-foreground">Monitoring {childData.name}'s Progress</p>
+            <p className="text-muted-foreground">Welcome back, {profile?.full_name}</p>
           </div>
           <div className="flex items-center space-x-3">
             <Badge variant="outline" className="text-primary border-primary">
@@ -80,7 +82,7 @@ export function ParentDashboard() {
             <Button 
               variant="outline" 
               size="sm"
-              onClick={() => window.location.href = '/'}
+              onClick={signOut}
               className="ml-4"
             >
               Logout

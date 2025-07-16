@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   Users, 
   BookOpen, 
@@ -21,6 +22,7 @@ import {
 
 export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
+  const { signOut, profile } = useAuth();
 
   // Mock data - in production this would come from Supabase
   const stats = {
@@ -46,7 +48,7 @@ export function AdminDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Yolymatics Tutorials - Admin</h1>
-            <p className="text-muted-foreground">Welcome back, Yolanda Dube</p>
+            <p className="text-muted-foreground">Welcome back, {profile?.full_name}</p>
           </div>
           <div className="flex items-center space-x-3">
             <Button size="sm" className="brand-gradient text-white">
@@ -60,7 +62,7 @@ export function AdminDashboard() {
             <Button 
               variant="outline" 
               size="sm"
-              onClick={() => window.location.href = '/'}
+              onClick={signOut}
             >
               Logout
             </Button>

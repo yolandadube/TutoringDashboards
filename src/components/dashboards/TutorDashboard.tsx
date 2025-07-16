@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   Users, 
   Calendar, 
@@ -19,6 +20,7 @@ import {
 
 export function TutorDashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const { signOut, profile } = useAuth();
 
   // Mock tutor data
   const tutorData = {
@@ -58,7 +60,7 @@ export function TutorDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Yolymatics Tutorials - Tutor</h1>
-            <p className="text-muted-foreground">Welcome back, {tutorData.name}</p>
+            <p className="text-muted-foreground">Welcome back, {profile?.full_name}</p>
           </div>
           <div className="flex items-center space-x-3">
             <Badge variant="outline" className="text-primary border-primary">
@@ -70,7 +72,7 @@ export function TutorDashboard() {
             </div>
             <Button 
               variant="outline" 
-              onClick={() => window.location.href = '/'}
+              onClick={signOut}
               className="ml-4"
             >
               Logout

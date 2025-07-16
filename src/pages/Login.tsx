@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
 import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 
 const Login = () => {
@@ -17,6 +17,29 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { signIn, signUp, user, profile } = useAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user && profile) {
+      switch (profile.role) {
+        case 'admin':
+          navigate('/admin');
+          break;
+        case 'tutor':
+          navigate('/tutor');
+          break;
+        case 'student':
+          navigate('/student');
+          break;
+        case 'parent':
+          navigate('/parent');
+          break;
+        default:
+          navigate('/dashboard');
+      }
+    }
+  }, [user, profile, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,45 +47,14 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
+      const { error } = await signIn(email, password);
+      if (!error) {
+        // Navigation will be handled by the useEffect hook above
+      } else {
         setError(error.message);
-        return;
       }
-
-      if (data.user) {
-        // Get user profile to determine role
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('user_id', data.user.id)
-          .single();
-
-        if (profile) {
-          switch (profile.role) {
-            case 'admin':
-              navigate('/admin');
-              break;
-            case 'tutor':
-              navigate('/tutor');
-              break;
-            case 'student':
-              navigate('/student');
-              break;
-            case 'parent':
-              navigate('/parent');
-              break;
-            default:
-              navigate('/');
-          }
-        }
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred');
     } finally {
       setLoading(false);
     }
@@ -74,27 +66,17 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-          },
-          emailRedirectTo: `${window.location.origin}/`,
-        },
-      });
-
-      if (error) {
+      const { error } = await signUp(email, password, fullName);
+      if (!error) {
+        // Success message will be shown by the useAuth hook
+        setEmail('');
+        setPassword('');
+        setFullName('');
+      } else {
         setError(error.message);
-        return;
       }
-
-      if (data.user) {
-        setError('Please check your email to confirm your account');
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred');
     } finally {
       setLoading(false);
     }
@@ -106,9 +88,9 @@ const Login = () => {
         {/* Logo Section */}
         <div className="text-center space-y-6">
           <div className="flex justify-center">
-            <div className="w-64 h-64 flex items-center justify-center">
+            <div className="w-80 h-80 flex items-center justify-center">
               <img 
-                src="/lovable-uploads/ce5a54c3-769b-4119-a08a-cc38508b67c8.png" 
+                src="/lovable-uploads/19e27bf1-b3a1-4cac-9a9e-ffc28e6a3aa8.png" 
                 alt="Yolymatics Tutorials Logo" 
                 className="w-full h-full object-contain"
               />
