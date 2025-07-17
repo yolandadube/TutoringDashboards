@@ -80,17 +80,14 @@ export function LandingPage() {
           <div className="text-center max-w-4xl mx-auto">
             <div className="mb-8">
               <div className="flex justify-center mb-6">
-                <div className="w-32 h-32 flex items-center justify-center">
+                <div className="w-64 h-64 flex items-center justify-center">
                   <img 
-                    src="/lovable-uploads/8b07fec7-9cb8-4b7f-8e49-98c7b7884ab3.png" 
+                    src="/lovable-uploads/yolymatics-logo-main.png" 
                     alt="Yolymatics Tutorials Logo" 
                     className="w-full h-full object-contain"
                   />
                 </div>
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold text-primary mb-2">
-                Yolymatics Tutorials
-              </h1>
               <h2 className="text-xl md:text-2xl font-semibold text-foreground/80 mb-4">
                 Learning Management Dashboard
               </h2>

@@ -63,22 +63,22 @@ const App = () => (
                 </ProtectedRoute>
               } />
               <Route path="/admin" element={
-                <ProtectedRoute requiredRole="admin">
+                <ProtectedRoute>
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/tutor" element={
-                <ProtectedRoute requiredRole="tutor">
+                <ProtectedRoute>
                   <TutorDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/student" element={
-                <ProtectedRoute requiredRole="student">
+                <ProtectedRoute>
                   <StudentDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/parent" element={
-                <ProtectedRoute requiredRole="parent">
+                <ProtectedRoute>
                   <ParentDashboard />
                 </ProtectedRoute>
               } />
