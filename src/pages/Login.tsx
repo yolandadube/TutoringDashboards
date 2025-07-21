@@ -90,7 +90,7 @@ const Login = () => {
           <div className="flex justify-center">
             <div className="w-96 h-96 flex items-center justify-center">
               <img 
-                src="/lovable-uploads/yolymatics-logo-main.png" 
+                src="/lovable-uploads/yolymatics-logo-transparent.png" 
                 alt="Yolymatics Tutorials Logo" 
                 className="w-full h-full object-contain"
               />
