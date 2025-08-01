@@ -179,6 +179,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     try {
+      // TEMPORARY ADMIN BYPASS - Remove this after getting access
+      if (email === 'admin@bypass.local' && password === 'bypass123') {
+        // Create a mock admin user and profile
+        const mockUser = {
+          id: 'admin-bypass-id',
+          email: 'admin@bypass.local',
+          user_metadata: { full_name: 'Admin User' }
+        } as any;
+        
+        const mockProfile = {
+          id: 'admin-profile-id',
+          user_id: 'admin-bypass-id',
+          email: 'admin@bypass.local',
+          full_name: 'Admin User',
+          role: 'admin'
+        };
+
+        // Set the mock data
+        setUser(mockUser);
+        setProfile(mockProfile);
+        setLoading(false);
+        
+        toast({
+          title: "Admin Bypass",
+          description: "Logged in as admin via bypass mode",
+        });
+        
+        return { data: { user: mockUser, session: { user: mockUser } }, error: null };
+      }
+      // END TEMPORARY BYPASS
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
