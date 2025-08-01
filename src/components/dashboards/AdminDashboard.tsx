@@ -654,87 +654,6 @@ export function AdminDashboard() {
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
-
-                {/* Add Tutor Modal */}
-                <Dialog open={showAddTutor} onOpenChange={setShowAddTutor}>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Add New Tutor</DialogTitle>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="tutorName" className="text-right">Name</Label>
-                        <Input
-                          id="tutorName"
-                          value={tutorForm.name}
-                          onChange={(e) => setTutorForm({...tutorForm, name: e.target.value})}
-                          className="col-span-3"
-                          placeholder="Full name"
-                        />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="tutorEmail" className="text-right">Email</Label>
-                        <Input
-                          id="tutorEmail"
-                          type="email"
-                          value={tutorForm.email}
-                          onChange={(e) => setTutorForm({...tutorForm, email: e.target.value})}
-                          className="col-span-3"
-                          placeholder="tutor@email.com"
-                        />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="specialization" className="text-right">Specialization</Label>
-                        <Select value={tutorForm.specialization} onValueChange={(value) => setTutorForm({...tutorForm, specialization: value})}>
-                          <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder="Select specialization" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="mathematics">Mathematics</SelectItem>
-                            <SelectItem value="physics">Physics</SelectItem>
-                            <SelectItem value="chemistry">Chemistry</SelectItem>
-                            <SelectItem value="biology">Biology</SelectItem>
-                            <SelectItem value="english">English</SelectItem>
-                            <SelectItem value="history">History</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="hourlyRate" className="text-right">Hourly Rate</Label>
-                        <Input
-                          id="hourlyRate"
-                          value={tutorForm.hourlyRate}
-                          onChange={(e) => setTutorForm({...tutorForm, hourlyRate: e.target.value})}
-                          className="col-span-3"
-                          placeholder="$35"
-                        />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="experience" className="text-right">Experience</Label>
-                        <Input
-                          id="experience"
-                          value={tutorForm.experience}
-                          onChange={(e) => setTutorForm({...tutorForm, experience: e.target.value})}
-                          className="col-span-3"
-                          placeholder="Years of experience"
-                        />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="tutorPhone" className="text-right">Phone</Label>
-                        <Input
-                          id="tutorPhone"
-                          value={tutorForm.phone}
-                          onChange={(e) => setTutorForm({...tutorForm, phone: e.target.value})}
-                          className="col-span-3"
-                          placeholder="Phone number"
-                        />
-                      </div>
-                    </div>
-                    <DialogFooter>
-                      <Button type="submit" onClick={handleAddTutor}>Add Tutor</Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -894,108 +813,6 @@ export function AdminDashboard() {
                 </div>
               </CardContent>
             </Card>
-
-            {/* Schedule Lesson Modal */}
-            <Dialog open={showScheduleLesson} onOpenChange={setShowScheduleLesson}>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Schedule New Lesson</DialogTitle>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="lessonStudent" className="text-right">Student</Label>
-                    <Select value={lessonForm.student} onValueChange={(value) => setLessonForm({...lessonForm, student: value})}>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder="Select student" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="alex">Alex Johnson</SelectItem>
-                        <SelectItem value="sarah">Sarah Smith</SelectItem>
-                        <SelectItem value="mike">Mike Wilson</SelectItem>
-                        <SelectItem value="emma">Emma Davis</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="lessonTutor" className="text-right">Tutor</Label>
-                    <Select value={lessonForm.tutor} onValueChange={(value) => setLessonForm({...lessonForm, tutor: value})}>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder="Select tutor" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="garcia">Dr. Maria Garcia</SelectItem>
-                        <SelectItem value="wilson">Prof. James Wilson</SelectItem>
-                        <SelectItem value="thompson">Dr. Sarah Thompson</SelectItem>
-                        <SelectItem value="chen">Mr. David Chen</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="lessonSubject" className="text-right">Subject</Label>
-                    <Select value={lessonForm.subject} onValueChange={(value) => setLessonForm({...lessonForm, subject: value})}>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder="Select subject" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="mathematics">Mathematics</SelectItem>
-                        <SelectItem value="physics">Physics</SelectItem>
-                        <SelectItem value="chemistry">Chemistry</SelectItem>
-                        <SelectItem value="biology">Biology</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="lessonDate" className="text-right">Date</Label>
-                    <Input
-                      id="lessonDate"
-                      type="date"
-                      value={lessonForm.date}
-                      onChange={(e) => setLessonForm({...lessonForm, date: e.target.value})}
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="lessonTime" className="text-right">Time</Label>
-                    <Input
-                      id="lessonTime"
-                      type="time"
-                      value={lessonForm.time}
-                      onChange={(e) => setLessonForm({...lessonForm, time: e.target.value})}
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="duration" className="text-right">Duration</Label>
-                    <Select value={lessonForm.duration} onValueChange={(value) => setLessonForm({...lessonForm, duration: value})}>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder="Select duration" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="30">30 minutes</SelectItem>
-                        <SelectItem value="60">60 minutes</SelectItem>
-                        <SelectItem value="90">90 minutes</SelectItem>
-                        <SelectItem value="120">120 minutes</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="lessonType" className="text-right">Type</Label>
-                    <Select value={lessonForm.type} onValueChange={(value) => setLessonForm({...lessonForm, type: value})}>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder="Select type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="online">Online</SelectItem>
-                        <SelectItem value="in-person">In-Person</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit" onClick={handleScheduleLesson}>Schedule Lesson</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6">
@@ -1204,6 +1021,191 @@ export function AdminDashboard() {
             </DialogContent>
           </Dialog>
         </Tabs>
+
+        {/* All Modals - Placed outside tabs for proper functionality */}
+        
+        {/* Add Tutor Modal */}
+        <Dialog open={showAddTutor} onOpenChange={setShowAddTutor}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add New Tutor</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="tutorName" className="text-right">Name</Label>
+                <Input
+                  id="tutorName"
+                  value={tutorForm.name}
+                  onChange={(e) => setTutorForm({...tutorForm, name: e.target.value})}
+                  className="col-span-3"
+                  placeholder="Full name"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="tutorEmail" className="text-right">Email</Label>
+                <Input
+                  id="tutorEmail"
+                  type="email"
+                  value={tutorForm.email}
+                  onChange={(e) => setTutorForm({...tutorForm, email: e.target.value})}
+                  className="col-span-3"
+                  placeholder="tutor@email.com"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="specialization" className="text-right">Specialization</Label>
+                <Select value={tutorForm.specialization} onValueChange={(value) => setTutorForm({...tutorForm, specialization: value})}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select specialization" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="mathematics">Mathematics</SelectItem>
+                    <SelectItem value="physics">Physics</SelectItem>
+                    <SelectItem value="chemistry">Chemistry</SelectItem>
+                    <SelectItem value="biology">Biology</SelectItem>
+                    <SelectItem value="english">English</SelectItem>
+                    <SelectItem value="history">History</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="hourlyRate" className="text-right">Hourly Rate</Label>
+                <Input
+                  id="hourlyRate"
+                  value={tutorForm.hourlyRate}
+                  onChange={(e) => setTutorForm({...tutorForm, hourlyRate: e.target.value})}
+                  className="col-span-3"
+                  placeholder="$35"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="experience" className="text-right">Experience</Label>
+                <Input
+                  id="experience"
+                  value={tutorForm.experience}
+                  onChange={(e) => setTutorForm({...tutorForm, experience: e.target.value})}
+                  className="col-span-3"
+                  placeholder="Years of experience"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="tutorPhone" className="text-right">Phone</Label>
+                <Input
+                  id="tutorPhone"
+                  value={tutorForm.phone}
+                  onChange={(e) => setTutorForm({...tutorForm, phone: e.target.value})}
+                  className="col-span-3"
+                  placeholder="Phone number"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit" onClick={handleAddTutor}>Add Tutor</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Schedule Lesson Modal */}
+        <Dialog open={showScheduleLesson} onOpenChange={setShowScheduleLesson}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Schedule New Lesson</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="lessonStudent" className="text-right">Student</Label>
+                <Select value={lessonForm.student} onValueChange={(value) => setLessonForm({...lessonForm, student: value})}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select student" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="alex">Alex Johnson</SelectItem>
+                    <SelectItem value="sarah">Sarah Smith</SelectItem>
+                    <SelectItem value="mike">Mike Wilson</SelectItem>
+                    <SelectItem value="emma">Emma Davis</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="lessonTutor" className="text-right">Tutor</Label>
+                <Select value={lessonForm.tutor} onValueChange={(value) => setLessonForm({...lessonForm, tutor: value})}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select tutor" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="garcia">Dr. Maria Garcia</SelectItem>
+                    <SelectItem value="wilson">Prof. James Wilson</SelectItem>
+                    <SelectItem value="thompson">Dr. Sarah Thompson</SelectItem>
+                    <SelectItem value="chen">Mr. David Chen</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="lessonSubject" className="text-right">Subject</Label>
+                <Select value={lessonForm.subject} onValueChange={(value) => setLessonForm({...lessonForm, subject: value})}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select subject" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="mathematics">Mathematics</SelectItem>
+                    <SelectItem value="physics">Physics</SelectItem>
+                    <SelectItem value="chemistry">Chemistry</SelectItem>
+                    <SelectItem value="biology">Biology</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="lessonDate" className="text-right">Date</Label>
+                <Input
+                  id="lessonDate"
+                  type="date"
+                  value={lessonForm.date}
+                  onChange={(e) => setLessonForm({...lessonForm, date: e.target.value})}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="lessonTime" className="text-right">Time</Label>
+                <Input
+                  id="lessonTime"
+                  type="time"
+                  value={lessonForm.time}
+                  onChange={(e) => setLessonForm({...lessonForm, time: e.target.value})}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="duration" className="text-right">Duration</Label>
+                <Select value={lessonForm.duration} onValueChange={(value) => setLessonForm({...lessonForm, duration: value})}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select duration" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="30">30 minutes</SelectItem>
+                    <SelectItem value="60">60 minutes</SelectItem>
+                    <SelectItem value="90">90 minutes</SelectItem>
+                    <SelectItem value="120">120 minutes</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="lessonType" className="text-right">Type</Label>
+                <Select value={lessonForm.type} onValueChange={(value) => setLessonForm({...lessonForm, type: value})}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="online">Online</SelectItem>
+                    <SelectItem value="in-person">In-Person</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit" onClick={handleScheduleLesson}>Schedule Lesson</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
