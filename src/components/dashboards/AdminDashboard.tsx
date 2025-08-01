@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   Users, 
   BookOpen, 
@@ -78,7 +79,7 @@ export function AdminDashboard() {
   });
 
   // Handler functions
-  const handleAddStudent = () => {
+  const handleAddStudent = async () => {
     if (!studentForm.name || !studentForm.email || !studentForm.grade) {
       toast({
         title: "Missing Information",
@@ -87,17 +88,96 @@ export function AdminDashboard() {
       });
       return;
     }
-    
-    toast({
-      title: "Student Added",
-      description: `${studentForm.name} has been added successfully`,
-    });
-    
-    setStudentForm({ name: '', email: '', grade: '', subjects: '', phone: '', parentEmail: '' });
-    setShowAddStudent(false);
+
+    try {
+      // Generate a temporary password for the student
+      const tempPassword = `Student${Math.random().toString(36).substring(2, 8)}!`;
+      
+      // Create user in Supabase auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: studentForm.email,
+        password: tempPassword,
+        options: {
+          data: {
+            full_name: studentForm.name,
+            role: 'student'
+          }
+        }
+      });
+
+      if (authError) {
+        toast({
+          title: "Error Creating Student Account",
+          description: authError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (!authData.user) {
+        toast({
+          title: "Error",
+          description: "Failed to create user account",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Create profile
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          user_id: authData.user.id,
+          email: studentForm.email,
+          full_name: studentForm.name,
+          role: 'student',
+          phone: studentForm.phone || null
+        });
+
+      if (profileError) {
+        toast({
+          title: "Error Creating Student Profile",
+          description: profileError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Create student record
+      const { error: studentError } = await supabase
+        .from('students')
+        .insert({
+          user_id: authData.user.id,
+          grade: studentForm.grade,
+          subjects: studentForm.subjects ? studentForm.subjects.split(',').map(s => s.trim()) : []
+        });
+
+      if (studentError) {
+        toast({
+          title: "Error Creating Student Record",
+          description: studentError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "Student Added Successfully",
+        description: `${studentForm.name} has been added. Temp password: ${tempPassword}`,
+      });
+      
+      setStudentForm({ name: '', email: '', grade: '', subjects: '', phone: '', parentEmail: '' });
+      setShowAddStudent(false);
+    } catch (error) {
+      toast({
+        title: "Unexpected Error",
+        description: "Failed to add student. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
-  const handleAddTutor = () => {
+  const handleAddTutor = async () => {
     if (!tutorForm.name || !tutorForm.email || !tutorForm.specialization) {
       toast({
         title: "Missing Information", 
@@ -106,17 +186,97 @@ export function AdminDashboard() {
       });
       return;
     }
-    
-    toast({
-      title: "Tutor Added",
-      description: `${tutorForm.name} has been added successfully`,
-    });
-    
-    setTutorForm({ name: '', email: '', specialization: '', hourlyRate: '', experience: '', phone: '' });
-    setShowAddTutor(false);
+
+    try {
+      // Generate a temporary password for the tutor
+      const tempPassword = `Tutor${Math.random().toString(36).substring(2, 8)}!`;
+      
+      // Create user in Supabase auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: tutorForm.email,
+        password: tempPassword,
+        options: {
+          data: {
+            full_name: tutorForm.name,
+            role: 'tutor'
+          }
+        }
+      });
+
+      if (authError) {
+        toast({
+          title: "Error Creating Tutor Account",
+          description: authError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (!authData.user) {
+        toast({
+          title: "Error",
+          description: "Failed to create user account",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Create profile
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          user_id: authData.user.id,
+          email: tutorForm.email,
+          full_name: tutorForm.name,
+          role: 'tutor',
+          phone: tutorForm.phone || null
+        });
+
+      if (profileError) {
+        toast({
+          title: "Error Creating Tutor Profile",
+          description: profileError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Create tutor record
+      const { error: tutorError } = await supabase
+        .from('tutors')
+        .insert({
+          user_id: authData.user.id,
+          subjects: [tutorForm.specialization],
+          hourly_rate: tutorForm.hourlyRate ? parseFloat(tutorForm.hourlyRate.replace('$', '')) : null,
+          qualifications: tutorForm.experience ? `${tutorForm.experience} years of experience` : null
+        });
+
+      if (tutorError) {
+        toast({
+          title: "Error Creating Tutor Record",
+          description: tutorError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "Tutor Added Successfully",
+        description: `${tutorForm.name} has been added. Temp password: ${tempPassword}`,
+      });
+      
+      setTutorForm({ name: '', email: '', specialization: '', hourlyRate: '', experience: '', phone: '' });
+      setShowAddTutor(false);
+    } catch (error) {
+      toast({
+        title: "Unexpected Error",
+        description: "Failed to add tutor. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
-  const handleScheduleLesson = () => {
+  const handleScheduleLesson = async () => {
     if (!lessonForm.student || !lessonForm.tutor || !lessonForm.subject || !lessonForm.date) {
       toast({
         title: "Missing Information",
@@ -125,17 +285,51 @@ export function AdminDashboard() {
       });
       return;
     }
-    
-    toast({
-      title: "Lesson Scheduled",
-      description: `Lesson scheduled for ${lessonForm.date} at ${lessonForm.time}`,
-    });
-    
-    setLessonForm({ student: '', tutor: '', subject: '', date: '', time: '', duration: '60', type: 'online' });
-    setShowScheduleLesson(false);
+
+    try {
+      // In a real implementation, you'd get actual student and tutor IDs
+      // For now, we'll create a basic lesson record
+      const scheduledDateTime = lessonForm.time 
+        ? `${lessonForm.date}T${lessonForm.time}:00.000Z`
+        : `${lessonForm.date}T09:00:00.000Z`;
+
+      const { error: lessonError } = await supabase
+        .from('lessons')
+        .insert({
+          subject: lessonForm.subject,
+          scheduled_date: scheduledDateTime,
+          duration_minutes: parseInt(lessonForm.duration),
+          status: 'scheduled',
+          topic: `${lessonForm.subject} lesson`,
+          notes: `Lesson type: ${lessonForm.type}`
+        });
+
+      if (lessonError) {
+        toast({
+          title: "Error Scheduling Lesson",
+          description: lessonError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "Lesson Scheduled Successfully",
+        description: `${lessonForm.subject} lesson scheduled for ${lessonForm.date} at ${lessonForm.time}`,
+      });
+      
+      setLessonForm({ student: '', tutor: '', subject: '', date: '', time: '', duration: '60', type: 'online' });
+      setShowScheduleLesson(false);
+    } catch (error) {
+      toast({
+        title: "Unexpected Error",
+        description: "Failed to schedule lesson. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
-  const handleUploadFile = () => {
+  const handleUploadFile = async () => {
     if (!fileForm.name || !fileForm.file) {
       toast({
         title: "Missing Information",
@@ -144,14 +338,66 @@ export function AdminDashboard() {
       });
       return;
     }
-    
-    toast({
-      title: "File Uploaded",
-      description: `${fileForm.name} has been uploaded successfully`,
-    });
-    
-    setFileForm({ name: '', category: 'course-materials', description: '', file: null });
-    setShowUploadFile(false);
+
+    try {
+      // Upload file to Supabase storage
+      const fileExt = fileForm.file.name.split('.').pop();
+      const fileName = `${Date.now()}-${fileForm.name.replace(/[^a-zA-Z0-9]/g, '_')}.${fileExt}`;
+      
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('files')
+        .upload(fileName, fileForm.file);
+
+      if (uploadError) {
+        toast({
+          title: "Error Uploading File",
+          description: uploadError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('files')
+        .getPublicUrl(fileName);
+
+      // Save file record to database
+      const { error: fileError } = await supabase
+        .from('files')
+        .insert({
+          filename: fileForm.name,
+          original_filename: fileForm.file.name,
+          file_url: publicUrl,
+          mime_type: fileForm.file.type,
+          file_size: fileForm.file.size,
+          associated_type: fileForm.category,
+          associated_id: null
+        });
+
+      if (fileError) {
+        toast({
+          title: "Error Saving File Record",
+          description: fileError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "File Uploaded Successfully",
+        description: `${fileForm.name} has been uploaded and saved`,
+      });
+      
+      setFileForm({ name: '', category: 'course-materials', description: '', file: null });
+      setShowUploadFile(false);
+    } catch (error) {
+      toast({
+        title: "Unexpected Error",
+        description: "Failed to upload file. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   // Mock data - in production this would come from Supabase
