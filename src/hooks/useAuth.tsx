@@ -39,7 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .eq('user_id', userId)
         .single();
       
-      if (error) {
+      if (error && error.code !== 'PGRST116') { // PGRST116 means no rows returned
         console.error('Error fetching profile:', error);
         return null;
       }
@@ -47,6 +47,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return data;
     } catch (error) {
       console.error('Error fetching profile:', error);
+      return null;
+    }
+  };
+
+  const createProfile = async (user: User, fullName: string, role: string = 'student') => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .insert({
+          user_id: user.id,
+          email: user.email || '',
+          full_name: fullName,
+          role: role,
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error creating profile:', error);
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error creating profile:', error);
       return null;
     }
   };
@@ -61,7 +86,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (session?.user) {
           // Fetch profile data after setting user
           setTimeout(async () => {
-            const profileData = await fetchProfile(session.user.id);
+            let profileData = await fetchProfile(session.user.id);
+            
+            // If no profile exists, create one with default role
+            if (!profileData && event === 'SIGNED_IN') {
+              const fullName = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User';
+              profileData = await createProfile(session.user, fullName);
+            }
+            
             setProfile(profileData);
             setLoading(false);
           }, 0);
@@ -78,7 +110,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        fetchProfile(session.user.id).then((profileData) => {
+        fetchProfile(session.user.id).then(async (profileData) => {
+          // If no profile exists, create one
+          if (!profileData) {
+            const fullName = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User';
+            profileData = await createProfile(session.user, fullName);
+          }
           setProfile(profileData);
           setLoading(false);
         });
@@ -112,10 +149,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { error };
       }
 
+      // If user is created and session exists, create profile
+      if (data.user && data.session) {
+        await createProfile(data.user, fullName);
+      }
+
       if (data.user && !data.session) {
         toast({
           title: "Check your email",
           description: "Please check your email to confirm your account before signing in.",
+        });
+      } else if (data.user && data.session) {
+        toast({
+          title: "Account created",
+          description: "Your account has been created successfully!",
         });
       }
 

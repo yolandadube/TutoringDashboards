@@ -82,7 +82,7 @@ export function LandingPage() {
               <div className="flex justify-center mb-6">
                 <div className="w-64 h-64 flex items-center justify-center">
                   <img 
-                    src="/lovable-uploads/yolymatics-logo-transparent.png" 
+                    src="/lovable-uploads/Yolymatics_logo_transparent.png" 
                     alt="Yolymatics Tutorials Logo" 
                     className="w-full h-full object-contain"
                   />
