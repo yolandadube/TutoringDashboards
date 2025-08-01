@@ -57,7 +57,7 @@ INSERT INTO auth.users (
     ''
 );
 
--- Step 5: Create the profile that the dashboard routing needs
+-- Step 5: Create or update the profile that the dashboard routing needs
 INSERT INTO public.profiles (
     user_id,
     full_name,
@@ -74,7 +74,12 @@ SELECT
     NOW(),
     NOW()
 FROM auth.users u 
-WHERE u.email = 'admin@yolymaticstutorials.com';
+WHERE u.email = 'admin@yolymaticstutorials.com'
+ON CONFLICT (email) DO UPDATE SET
+    user_id = EXCLUDED.user_id,
+    full_name = 'Yolanda Dube',
+    role = 'admin',
+    updated_at = NOW();
 
 -- Step 6: Grant all necessary permissions
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO authenticated;
