@@ -18,7 +18,9 @@ ORDER BY tablename, policyname;
 DROP POLICY IF EXISTS "Users can view own profile" ON public.profiles;
 DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
 DROP POLICY IF EXISTS "Admins can view all profiles" ON public.profiles;
+DROP POLICY IF EXISTS "Admins can update all profiles" ON public.profiles;
 DROP POLICY IF EXISTS "Admins can insert profiles" ON public.profiles;
+DROP POLICY IF EXISTS "Admins can delete profiles" ON public.profiles;
 
 -- Create comprehensive RLS policies for profiles
 CREATE POLICY "Users can view own profile" ON public.profiles
@@ -63,22 +65,22 @@ CREATE POLICY "Admins can delete profiles" ON public.profiles
 -- Enable RLS on all relevant tables and create basic policies
 DO $$
 DECLARE
-    table_name text;
+    tbl_name text;
     table_list text[] := ARRAY[
         'students', 'tutors', 'parents', 'lessons', 'feedback', 
         'payments', 'schedules', 'subjects', 'lesson_materials'
     ];
 BEGIN
-    FOREACH table_name IN ARRAY table_list
+    FOREACH tbl_name IN ARRAY table_list
     LOOP
         -- Check if table exists before creating policies
-        IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = table_name) THEN
+        IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = tbl_name) THEN
             -- Enable RLS
-            EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', table_name);
+            EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', tbl_name);
             
             -- Drop existing policies if they exist
-            EXECUTE format('DROP POLICY IF EXISTS "Admins can access all %s" ON public.%I', table_name, table_name);
-            EXECUTE format('DROP POLICY IF EXISTS "Users can view own %s" ON public.%I', table_name, table_name);
+            EXECUTE format('DROP POLICY IF EXISTS "Admins can access all %s" ON public.%I', tbl_name, tbl_name);
+            EXECUTE format('DROP POLICY IF EXISTS "Users can view own %s" ON public.%I', tbl_name, tbl_name);
             
             -- Create admin access policy
             EXECUTE format('CREATE POLICY "Admins can access all %s" ON public.%I
@@ -87,17 +89,17 @@ BEGIN
                         SELECT 1 FROM public.profiles p 
                         WHERE p.user_id = auth.uid() AND p.role = ''admin''
                     )
-                )', table_name, table_name);
+                )', tbl_name, tbl_name);
                 
             -- Create user access policy (where applicable)
-            IF table_name IN ('students', 'tutors', 'parents') THEN
+            IF tbl_name IN ('students', 'tutors', 'parents') THEN
                 EXECUTE format('CREATE POLICY "Users can view own %s" ON public.%I
-                    FOR SELECT USING (user_id = auth.uid())', table_name, table_name);
+                    FOR SELECT USING (user_id = auth.uid())', tbl_name, tbl_name);
             END IF;
             
-            RAISE NOTICE 'Updated RLS policies for table: %', table_name;
+            RAISE NOTICE 'Updated RLS policies for table: %', tbl_name;
         ELSE
-            RAISE NOTICE 'Table % does not exist, skipping', table_name;
+            RAISE NOTICE 'Table % does not exist, skipping', tbl_name;
         END IF;
     END LOOP;
 END $$;
@@ -118,6 +120,6 @@ FROM auth.users u
 JOIN public.profiles p ON u.id = p.user_id
 WHERE u.email = 'yolanda.admin@yolymaticstutorials.com';
 
-RAISE NOTICE '✅ Database schema access has been fixed!';
-RAISE NOTICE 'You can now log in with: yolanda.admin@yolymaticstutorials.com';
-RAISE NOTICE 'Password: $Yolymatics007$';
+-- Database schema access has been fixed!
+-- You can now log in with: yolanda.admin@yolymaticstutorials.com
+-- Password: $Yolymatics007$
