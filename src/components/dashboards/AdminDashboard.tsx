@@ -239,10 +239,9 @@ export function AdminDashboard() {
       const { data: existingUser, error: checkError } = await supabase
         .from('profiles')
         .select('email')
-        .eq('email', studentForm.email)
-        .single();
+        .eq('email', studentForm.email);
 
-      if (existingUser) {
+      if (existingUser && existingUser.length > 0) {
         toast({
           title: "Email Already Exists",
           description: "A user with this email already exists in the system",
@@ -372,10 +371,9 @@ export function AdminDashboard() {
       const { data: existingUser, error: checkError } = await supabase
         .from('profiles')
         .select('email')
-        .eq('email', tutorForm.email)
-        .single();
+        .eq('email', tutorForm.email);
 
-      if (existingUser) {
+      if (existingUser && existingUser.length > 0) {
         toast({
           title: "Email Already Exists",
           description: "A user with this email already exists in the system",
